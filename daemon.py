@@ -3,6 +3,7 @@ from flask_cors import CORS
 from configparser import ConfigParser
 import psutil
 import os
+import platform
 
 DOCKER_INSTALLED = False
 try:
@@ -43,11 +44,22 @@ def system_info():
     memory_info = psutil.virtual_memory()
     disk_usage = psutil.disk_usage('/')
 
+    # Fetch OS information using platform
+    os_info = {
+        'system': platform.system(),
+        'release': platform.release(),
+        'version': platform.version(),
+        'architecture': platform.architecture()[0],
+        'machine': platform.machine(),
+        'node': platform.node()
+    }
+
     # Prepare the system information
     system_info = {
         'daemon': {
             'version': VERSION
         },
+        'os': os_info,
         'cpu_usage': cpu_usage,
         'memory': {
             'total': memory_info.total,
@@ -63,6 +75,18 @@ def system_info():
             'percent': disk_usage.percent
         }
     }
+
+
+    dockerJson = {}
+    dockerJson["INSTALLED"] = DOCKER_INSTALLED
+    if DOCKER_INSTALLED:
+        try:
+            client = docker.from_env()
+            info = client.info()
+            dockerJson["docker"] = info
+        except docker.errors.DockerException as e:
+            pass
+    system_info["docker"] = dockerJson
 
     return jsonify(system_info)
 
