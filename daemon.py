@@ -1,7 +1,15 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from configparser import ConfigParser
-import psutil, os
+import psutil
+import os
+
+DOCKER_INSTALLED = False
+try:
+    import docker
+    DOCKER_INSTALLED = True
+except ImportError:
+    DOCKER_INSTALLED = False
 
 if not os.path.exists("config.rcf"):
     with open("config.rcf", "w") as configFile:
@@ -57,6 +65,19 @@ def system_info():
     }
 
     return jsonify(system_info)
+
+@app.route('/docker', methods=['GET'])
+def docker_info():
+    dockerJson = {}
+    dockerJson["INSTALLED"] = DOCKER_INSTALLED
+    if DOCKER_INSTALLED:
+        try:
+            client = docker.from_env()
+            info = client.info()
+            dockerJson["docker"] = info
+        except docker.errors.DockerException as e:
+            pass
+    return jsonify(dockerJson)
 
 if __name__ == '__main__':
     app.run(debug=True)
