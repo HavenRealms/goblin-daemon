@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from configparser import ConfigParser
 import psutil, os
 
@@ -10,6 +11,7 @@ with open("config.rcf") as stream:
     config.read_string("[base]\n" + stream.read())
 
 app = Flask(__name__)
+CORS(app)
 
 # Secret API key for authentication
 API_KEY = config.get("base", "api_key")
