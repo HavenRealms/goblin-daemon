@@ -30,7 +30,7 @@ if DOCKER_INSTALLED:
     client = docker.from_env()
 
     network = client.networks()
-    clientList = network.list()
+    print(network)
 
     # Check if the network already exists
     network_names = [net.name for net in client.networks.list()]
