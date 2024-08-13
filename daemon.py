@@ -28,10 +28,9 @@ VERSION = "0.0.1-DEV"
 
 if DOCKER_INSTALLED:
     client = docker.from_env()
-    print(client)
 
     # Check if the network already exists
-    network_names = [net.name for net in client.networks]
+    network_names = [net.name for net in client.networks.list()]
 
     if "goblin0" in network_names:
         print("Network goblin0 already exists.")
