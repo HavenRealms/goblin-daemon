@@ -78,12 +78,14 @@ def system_info():
 
 
     dockerJson = {}
+    print("INSTALLED: " + str(DOCKER_INSTALLED))
     dockerJson["INSTALLED"] = DOCKER_INSTALLED
     if DOCKER_INSTALLED:
         try:
             client = docker.from_env()
             info = client.info()
             dockerJson["docker"] = info
+            print(info)
         except docker.errors.DockerException as e:
             dockerJson["INSTALLED"] = False
     system_info["docker"] = dockerJson
@@ -93,14 +95,16 @@ def system_info():
 @app.route('/docker', methods=['GET'])
 def docker_info():
     dockerJson = {}
+    print("INSTALLED: " + str(DOCKER_INSTALLED))
     dockerJson["INSTALLED"] = DOCKER_INSTALLED
     if DOCKER_INSTALLED:
         try:
             client = docker.from_env()
             info = client.info()
+            print(info)
             dockerJson["docker"] = info
         except docker.errors.DockerException as e:
-            pass
+            dockerJson["INSTALLED"] = False
     return jsonify(dockerJson)
 
 if __name__ == '__main__':
