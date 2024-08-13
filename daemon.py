@@ -87,6 +87,7 @@ def system_info():
             dockerJson["docker"] = info
             print(info)
         except docker.errors.DockerException as e:
+            print(e)
             dockerJson["INSTALLED"] = False
     system_info["docker"] = dockerJson
 
@@ -104,6 +105,7 @@ def docker_info():
             print(info)
             dockerJson["docker"] = info
         except docker.errors.DockerException as e:
+            print(e)
             dockerJson["INSTALLED"] = False
     return jsonify(dockerJson)
 
