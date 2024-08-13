@@ -26,6 +26,24 @@ CORS(app)
 API_KEY = config.get("base", "api_key")
 VERSION = "0.0.1-DEV"
 
+if DOCKER_INSTALLED:
+    client = docker.from_env()
+
+    # Check if the network already exists
+    networks = client.networks.list()
+    network_names = [net.name for net in networks]
+
+    if "goblin0" in network_names:
+        print("Network goblin0 already exists.")
+        network = client.networks.get("goblin0")
+    else:
+        # Create a new Docker network if it doesn't exist
+        print("Creating network goblin0...")
+        network = client.networks.create(
+            "goblin0",
+            driver="bridge"  # Use the default driver
+        )
+
 def authenticate(request):
     # Check if the request contains the API key
     token = request.headers.get('Authorization')
