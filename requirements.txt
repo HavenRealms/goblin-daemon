@@ -3,3 +3,4 @@ flask-cors
 psutil
 docker-py
 setuptools
+requests==2.28.2
