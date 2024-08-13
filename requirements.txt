@@ -2,3 +2,4 @@ flask
 flask-cors
 psutil
 docker-py
+setuptools
