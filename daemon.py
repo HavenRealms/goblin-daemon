@@ -85,7 +85,7 @@ def system_info():
             info = client.info()
             dockerJson["docker"] = info
         except docker.errors.DockerException as e:
-            pass
+            dockerJson["INSTALLED"] = False
     system_info["docker"] = dockerJson
 
     return jsonify(system_info)
