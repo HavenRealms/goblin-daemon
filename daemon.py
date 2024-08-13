@@ -36,8 +36,8 @@ def authenticate(request):
 
 @app.route('/system-info', methods=['GET'])
 def system_info():
-    #if not authenticate(request):
-    #    return jsonify({'error': 'Unauthorized'}), 401
+    if not authenticate(request):
+        return jsonify({'error': 'Unauthorized'}), 401
 
     # Fetch system information using psutil
     cpu_usage = psutil.cpu_percent(interval=1)
