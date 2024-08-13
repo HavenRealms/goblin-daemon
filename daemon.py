@@ -24,7 +24,6 @@ CORS(app)
 
 # Secret API key for authentication
 API_KEY = config.get("base", "api_key")
-print(API_KEY)
 VERSION = "0.0.1-DEV"
 
 def authenticate(request):
@@ -78,16 +77,13 @@ def system_info():
 
 
     dockerJson = {}
-    print("INSTALLED: " + str(DOCKER_INSTALLED))
     dockerJson["INSTALLED"] = DOCKER_INSTALLED
     if DOCKER_INSTALLED:
         try:
             client = docker.from_env()
             info = client.info()
             dockerJson["docker"] = info
-            print(info)
         except docker.errors.DockerException as e:
-            print(e)
             dockerJson["INSTALLED"] = False
     system_info["docker"] = dockerJson
 
@@ -96,16 +92,13 @@ def system_info():
 @app.route('/docker', methods=['GET'])
 def docker_info():
     dockerJson = {}
-    print("INSTALLED: " + str(DOCKER_INSTALLED))
     dockerJson["INSTALLED"] = DOCKER_INSTALLED
     if DOCKER_INSTALLED:
         try:
             client = docker.from_env()
             info = client.info()
-            print(info)
             dockerJson["docker"] = info
         except docker.errors.DockerException as e:
-            print(e)
             dockerJson["INSTALLED"] = False
     return jsonify(dockerJson)
 
