@@ -4,3 +4,4 @@ flask-cors
 psutil
 docker-py
 setuptools
+gunicorn
