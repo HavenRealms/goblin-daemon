@@ -1,4 +1,4 @@
-requests<2.2.29
+requests
 flask
 flask-cors
 psutil
