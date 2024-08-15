@@ -2,6 +2,6 @@ requests<2.2.29
 flask
 flask-cors
 psutil
-docker-py
+docker
 setuptools
 gunicorn
