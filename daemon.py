@@ -24,7 +24,7 @@ CORS(app)
 
 # Secret API key for authentication
 API_KEY = config.get("base", "api_key")
-VERSION = "0.0.1-DEV"
+VERSION = "0.0.2-DEV"
 
 if DOCKER_INSTALLED:
     client = docker.from_env()
